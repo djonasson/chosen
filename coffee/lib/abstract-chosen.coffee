@@ -250,7 +250,14 @@ class AbstractChosen
           this.results_search()
       when 13
         evt.preventDefault()
-        this.result_select(evt) if this.results_showing
+        if this.results_showing
+          if !this.is_multiple || this.result_highlight
+            return this.result_select(evt)
+          $(this.form_field).append('<option>' + $(evt.target).val() + '</option>')
+          $(this.form_field).trigger('chosen:updated')
+          this.result_highlight = this.search_results.find('li.active-result').last()
+          return this.result_select(evt)
+        break
       when 27
         this.results_hide() if @results_showing
         return true
