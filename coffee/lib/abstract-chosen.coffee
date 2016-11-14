@@ -14,6 +14,7 @@ class AbstractChosen
     this.on_ready()
 
   set_default_values: ->
+    @with_add = @options.with_add || false
     @click_test_action = (evt) => this.test_active_click(evt)
     @activate_action = (evt) => this.activate_field(evt)
     @active_field = false
@@ -251,7 +252,7 @@ class AbstractChosen
       when 13
         evt.preventDefault()
         if this.results_showing
-          if !this.is_multiple || this.result_highlight
+          if !this.with_add || !this.is_multiple || this.result_highlight
             return this.result_select(evt)
           $(this.form_field).append('<option>' + $(evt.target).val() + '</option>')
           $(this.form_field).trigger('chosen:updated')
